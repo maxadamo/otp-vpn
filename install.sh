@@ -91,12 +91,11 @@ fi
 rm -f ${VENV_PREFIX}/bin/${APP}.py
 cp ${APP}.py ${VENV_PREFIX}/bin/${APP}.py
 
-cat <<EOF >~/bin/${pywrapper}
+cat <<EOF >~/bin/${APP}
 #!/bin/bash
 export PATH=${VENV_PREFIX}/bin:\$PATH
 python ${VENV_PREFIX}/bin/${APP}.py "\$@"
 EOF
-done
 
 printf "\nto uninstall ${APP}:
 rm -rf ~/venv/${APP} ~/bin/${APP}"

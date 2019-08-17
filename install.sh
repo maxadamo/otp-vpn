@@ -69,7 +69,7 @@ if [ ! -d ~/venv/${APP}/lib/python${PYTHON_VERSION}/site-packages/wheel ]; then
 fi
 
 if [ ! -d ~/venv/${APP}/lib/python${PYTHON_VERSION}/site-packages/onetimepass ]; then
-    printf "installing wheel..."
+    printf "installing onetimepass..."
     pip install -q onetimepass &
     PID=$!
     spinner
@@ -88,14 +88,18 @@ if [ ! -z $REMOTE_STATUS ]; then
     git pull
 fi
 
-rm -f ${VENV_PREFIX}/bin/${APP}.py
-cp ${APP}.py ${VENV_PREFIX}/bin/${APP}.py
+cp -f ${APP}.py ${VENV_PREFIX}/bin/${APP}.py
 
 cat <<EOF >~/bin/${APP}
 #!/bin/bash
 export PATH=${VENV_PREFIX}/bin:\$PATH
 python ${VENV_PREFIX}/bin/${APP}.py "\$@"
 EOF
+
+printf "\nthe following script have been created:\n"
+printf "  ~/bin/${APP}\n"
+chmod +x ~/bin/${APP}
+
 
 printf "\nto uninstall ${APP}:
 rm -rf ~/venv/${APP} ~/bin/${APP}"

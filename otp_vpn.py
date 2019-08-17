@@ -134,7 +134,7 @@ rqmweNTkxr8iU1vPv8stRYdCTrYcfXffNkhNdz++6Jwz
 </ca>
 """.format(MY_USER_DIR, AUTHFILE)
 
-    SELF_SETUP = """
+    SELF_SETUP = """\
 #!/bin/bash
 cd $(mktemp -d)
 git clone https://github.com/maxadamo/otp_vpn.git .

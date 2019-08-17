@@ -107,7 +107,7 @@ dev tun
 remote 2001:798:3::96 1194
 remote 2001:798:3::bb 1194
 remote 83.97.92.126 1194
-#remote 83.97.92.163 1194
+remote 83.97.92.163 1194
 connect-timeout 3
 connect-retry 2
 connect-retry-max 2

@@ -102,7 +102,6 @@ chmod +x ~/bin/${APP}
 
 
 printf "\nto uninstall ${APP}:
-rm -rf ~/venv/${APP} ~/bin/${APP}"
-echo ''
+rm -rf ~/venv/${APP} ~/bin/${APP}\n"
 
 deactivate

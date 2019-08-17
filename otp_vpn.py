@@ -12,24 +12,7 @@ from distutils.spawn import find_executable
 import configparser
 import subprocess
 import os
-try:
-    import onetimepass as otp
-except ImportError:
-    print("Please install onetimepass: pip3 install onetimepass\n")
-    os.sys.exit()
-
-
-def git_pull(scripting_pot):
-    """ update repository """
-    subprocess.Popen(
-        ['git', 'reset', '--hard', 'FETCH_HEAD'],
-        cwd=scripting_pot,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    subprocess.Popen(
-        ["git", "pull"], cwd=scripting_pot,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
+import onetimepass as otp
 
 
 def is_tool(application):
@@ -51,7 +34,6 @@ def write_file(file_content, file_name):
 
 if __name__ == "__main__":
 
-
     for my_tool in ['rxvt-unicode', 'openvpn', 'git']:
         if not is_tool(my_tool):
             print('please install {} or add it to PATH'.format(my_tool))
@@ -62,18 +44,6 @@ if __name__ == "__main__":
     SCRIPT_PATH = os.path.join(SCRIPT_DIR, SCRIPT_NAME)
     MY_USER_DIR = os.path.expanduser('~')
     SCRIPT_LINK = os.path.join(MY_USER_DIR, 'bin', SCRIPT_NAME)
-    try:
-        os.makedirs(os.path.join(MY_USER_DIR, 'bin'))
-    except FileExistsError:
-        pass
-    if not os.path.islink(SCRIPT_LINK):
-        os.symlink(SCRIPT_PATH, SCRIPT_LINK)
-        TARGET_DIR = None
-    else:
-        TARGET_DIR = os.path.dirname(os.path.dirname(os.readlink(SCRIPT_LINK)))
-
-    if TARGET_DIR:
-        git_pull(TARGET_DIR)
 
     OTPCONFIG = os.path.join(MY_USER_DIR, '.vpn-credentials')
     OVPNFILE = os.path.join(MY_USER_DIR, '.client.ovpn')

@@ -11,7 +11,7 @@ foo  ALL=NOPASSWD: /usr/sbin/openvpn*
 Now you can run the script as user `foo` for the first time:
 
 ```bash
-./otp_vpn.py
+~/bin/otp_vpn
 ```
 
 ## Connect/disconnect the VPN
@@ -22,7 +22,7 @@ Now you can run the script as user `foo` for the first time:
 
 2. you don't have GNOME:
 
-    run either `/home/foo/bin/otp_vpn.py`, `/home/maxadamo/bin/jump_off.sh`
+    run either `~/bin/otp_vpn`, `~/bin/otp_vpn`
 
 3. long press the icon:
 
@@ -31,4 +31,3 @@ Now you can run the script as user `foo` for the first time:
 ## hints
 
 - Do not run the script as root (or with sudo)
-- Do not delete or move the repository

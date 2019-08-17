@@ -2,7 +2,12 @@
 #
 APP=otp_vpn
 VENV_PREFIX=~/venv/${APP}
-export VENV_PREFIX
+if tty -s; then
+    PRINT_CMD='printf'
+else
+    PRINT_CMD='true'
+fi
+export VENV_PREFIX PRINT_CMD APP
 
 # prepare the spinning cursor
 spinner () {
@@ -11,18 +16,18 @@ spinner () {
     echo -n ' '
     while [ -d /proc/$PID ]
     do
-      printf "\b${sp:i++%${#sp}:1}"
+      $PRINT_CMD "\b${sp:i++%${#sp}:1}"
     done
-    printf '\b \b'
+    $PRINT_CMD '\b \b'
 }
 
 # try to deactivate virtualenv
 deactivate 2>/dev/null || true
 
 # check if we have internet connection
-printf "checking internet connection...\n"
+$PRINT_CMD "checking internet connection...\n"
 if ! curl -s -L http://google.com -o /dev/null; then
-    printf "\nplease check your internet connection\n\n"
+    $PRINT_CMD "\nplease check your internet connection\n\n"
     exit 1
 fi
 
@@ -46,35 +51,35 @@ PYTHON_VERSION=$(python --version | awk '{print $2}' | awk -F. '{print $1"."$2}'
 
 # install pip and setuptools within the virtualenv
 if [ ! -f ~/venv/${APP}/bin/pip ]; then
-    printf "installing pip..."
+    $PRINT_CMD "installing pip..."
     pip install -q pip &
     PID=$!
     spinner
-    printf "\n"
+    $PRINT_CMD "\n"
 fi
 
 if [ ! -d ~/venv/${APP}/lib/python${PYTHON_VERSION}/site-packages/setuptools ]; then
-    printf "installing setuptools..."
+    $PRINT_CMD "installing setuptools..."
     pip install -q setuptools &
     PID=$!
     spinner
-    printf "\n"
+    $PRINT_CMD "\n"
 fi
  
 if [ ! -d ~/venv/${APP}/lib/python${PYTHON_VERSION}/site-packages/wheel ]; then
-    printf "installing wheel..."
+    $PRINT_CMD "installing wheel..."
     pip install -q wheel &
     PID=$!
     spinner
-    printf "\n"
+    $PRINT_CMD "\n"
 fi
 
 if [ ! -d ~/venv/${APP}/lib/python${PYTHON_VERSION}/site-packages/onetimepass ]; then
-    printf "installing onetimepass..."
+    $PRINT_CMD "installing onetimepass..."
     pip install -q onetimepass &
     PID=$!
     spinner
-    printf "\n"
+    $PRINT_CMD "\n"
 fi
 
 # switch branch only if necessary
@@ -165,7 +170,7 @@ echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
 EOF
 
-printf "\nthe following script have been created:
+$PRINT_CMD "\nthe following script have been created:
   ~/bin/${APP}
   ~/bin/jump-vpn.sh
   ~/bin/jump-vpn-off.sh

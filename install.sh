@@ -165,7 +165,7 @@ echo "printing OpenVPN statistics"
 echo "signal SIGUSR2" | telnet 127.0.0.1 7505 >/dev/null
 EOF
 
-cat <<EOF > ~/jump_ff.sh
+cat <<EOF > ~/jump_off.sh
 echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
 EOF

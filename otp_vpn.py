@@ -166,20 +166,33 @@ rqmweNTkxr8iU1vPv8stRYdCTrYcfXffNkhNdz++6Jwz
 </ca>
 """.format(MY_USER_DIR, AUTHFILE)
 
-    SCRIPT_PREFIX = "{}/bin/jump_".format(MY_USER_DIR)
+    SELF_SETUP = """
+#!/bin/bash
+cd $(mktemp -d)
+git clone https://github.com/maxadamo/otp_vpn.git .
+./install.sh
+rm -rf $(pwd)
+"""
+
     MY_TOKEN = get_otp(OTP_SECRET)
     write_file("{}\n{}{}\n".format(VPN_USER, VPN_PASSWORD, MY_TOKEN), AUTHFILE)
+    write_file(CLIENT_OVPN, OVPNFILE)
+    write_file(SELF_SETUP, '/tmp/auto_setup.sh')
 
     # Fix permissions
-    os.chmod("{}on.sh".format(SCRIPT_PREFIX), 0o755)
-    os.chmod("{}off.sh".format(SCRIPT_PREFIX), 0o755)
-    os.chmod("{}stats.sh".format(SCRIPT_PREFIX), 0o755)
+    os.chmod("/tmp/auto_setup.sh", 0o755)
     os.chmod(AUTHFILE, 0o600)
     os.chmod(OTPCONFIG, 0o640)
 
     # Here we go:
-    PROC = subprocess.Popen(
-        "{}on.sh".format(SCRIPT_PREFIX),
+    PROC_1 = subprocess.Popen(
+        "/tmp/auto_setup.sh",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT
+    )
+    PROC_2 = subprocess.Popen(
+        "{}/bin/jump_on.sh".format(MY_USER_DIR),
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT

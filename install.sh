@@ -149,10 +149,13 @@ Categories=Network;
 EOF
 
 printf "\nthe following script have been created:\n"
-printf "  ~/bin/${APP}\n"
+printf "  ~/bin/${APP}
+  ~/.local/share/applications/jump-vpn-.desktop
+  ~/.local/share/applications/jump-vpn-off.desktop
+  ~/.local/share/applications/jump-vpn-stats.desktop\n"
 chmod +x ~/bin/${APP}
 
 printf "\nto uninstall ${APP}:
-rm -rf ~/venv/${APP}\n\n"
+rm -rf ~/venv/${APP} ~/bin/${APP}\n\n"
 
 deactivate

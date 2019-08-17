@@ -67,6 +67,7 @@ vpn_password = your_password
     OTP_SECRET = CONFIG.get('otp-vpn', 'otp_secret')
     VPN_USER = CONFIG.get('otp-vpn', 'vpn_user')
     VPN_PASSWORD = CONFIG.get('otp-vpn', 'vpn_password')
+    SELF_SETUP_SCRIPT = '/tmp/otp_vpn_auto_setup.sh'
     CLIENT_OVPN = """\
 client
 verb 2
@@ -139,22 +140,22 @@ rqmweNTkxr8iU1vPv8stRYdCTrYcfXffNkhNdz++6Jwz
 cd $(mktemp -d)
 git clone https://github.com/maxadamo/otp_vpn.git .
 ./install.sh
-rm -rf $(pwd)
-"""
+rm -rf $(pwd) {}
+""".format(SELF_SETUP_SCRIPT)
 
     MY_TOKEN = get_otp(OTP_SECRET)
     write_file("{}\n{}{}\n".format(VPN_USER, VPN_PASSWORD, MY_TOKEN), AUTHFILE)
     write_file(CLIENT_OVPN, OVPNFILE)
-    write_file(SELF_SETUP, '/tmp/auto_setup.sh')
+    write_file(SELF_SETUP, SELF_SETUP_SCRIPT)
 
     # Fix permissions
-    os.chmod("/tmp/auto_setup.sh", 0o755)
+    os.chmod(SELF_SETUP_SCRIPT, 0o755)
     os.chmod(AUTHFILE, 0o600)
     os.chmod(OTPCONFIG, 0o640)
 
     # Here we go:
     _PROC_1 = subprocess.Popen(
-        "/tmp/auto_setup.sh",
+        SELF_SETUP_SCRIPT,
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT

@@ -26,8 +26,9 @@ if ! curl -s -L http://google.com -o /dev/null; then
     exit 1
 fi
 
-# creates ~/bin
+# creates directories
 [ -d ~/bin ] || mkdir ~/bin
+[ -d ~/.local/share/applications ] || mkdir ~/.local/share/applications
 
 # create virtualenv if missing
 if [ ! -d ${VENV_PREFIX} ]; then
@@ -96,10 +97,60 @@ export PATH=${VENV_PREFIX}/bin:\$PATH
 python ${VENV_PREFIX}/bin/${APP}.py "\$@"
 EOF
 
+cat <<EOF > ~/.local/share/applications/jump-vpn.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Jump VPN
+GenericName=Jump VPN with OTP
+Comment=Launch Jump VPN with OTP
+Exec=/home/maxadamo/bin/otp_vpn.py
+Icon=network-vpn-symbolic
+Terminal=false
+Type=Application
+MimeType=text/plain;
+Categories=Network;
+Actions=off;stats;
+
+[Desktop Action off]
+Name=Jump VPN OFF
+Exec=/home/maxadamo/bin/jump_off.sh
+
+[Desktop Action stats]
+Name=Jump VPN Stats
+Exec=/home/maxadamo/bin/jump_stats.sh
+EOF
+
+cat <<EOF > ~/.local/share/applications/jump-vpn-off.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Jump VPN OFF
+GenericName=Close Jump VPN connection
+Comment=Close Jump VPN connection
+Exec=/home/maxadamo/bin/jump_off.sh
+Icon=network-vpn-acquiring-symbolic
+Terminal=false
+Type=Application
+MimeType=text/plain;
+Categories=Network;
+EOF
+
+cat <<EOF > ~/.local/share/applications/jump-vpn-stats.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Jump VPN Stats
+GenericName=Dump VPN Statistics
+Comment=Close Jump VPN Statistics
+Exec=/home/maxadamo/bin/jump_stats.sh
+Icon=network-vpn-no-route-symbolic
+Terminal=false
+Type=Application
+MimeType=text/plain;
+Categories=Network;
+EOF
+
 printf "\nthe following script have been created:\n"
 printf "  ~/bin/${APP}\n"
 chmod +x ~/bin/${APP}
-
 
 printf "\nto uninstall ${APP}:
 rm -rf ~/venv/${APP}\n\n"

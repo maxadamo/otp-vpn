@@ -99,7 +99,6 @@ vpn_password = your_password
     OTP_SECRET = CONFIG.get('otp-vpn', 'otp_secret')
     VPN_USER = CONFIG.get('otp-vpn', 'vpn_user')
     VPN_PASSWORD = CONFIG.get('otp-vpn', 'vpn_password')
-
     CLIENT_OVPN = """\
 client
 verb 2
@@ -167,86 +166,7 @@ rqmweNTkxr8iU1vPv8stRYdCTrYcfXffNkhNdz++6Jwz
 </ca>
 """.format(MY_USER_DIR, AUTHFILE)
 
-    JUMP_ON = """\
-#!/bin/bash
-rxvt -depth 32 -bg rgba:0000/0000/0000/9999 -fg "[99]green" \\
-    --geometry 160x15 -title "Jump VPN" -e /bin/bash \\
-    -c "sudo openvpn --config {}"
-""".format(OVPNFILE)
-
-    JUMP_STATS = """\
-echo "printing OpenVPN statistics"
-echo "signal SIGUSR2" | telnet 127.0.0.1 7505 >/dev/null
-"""
-
-    JUMP_OFF = """\
-echo "disconnecting OpenVPN"
-echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
-"""
-
-    JUMP_ON_DESKTOP = """\
-[Desktop Entry]
-Encoding=UTF-8
-Name=Jump VPN
-GenericName=Jump VPN with OTP
-Comment=Launch Jump VPN with OTP
-Exec={0}/bin/otp_vpn.py
-Icon=network-vpn-symbolic
-Terminal=false
-Type=Application
-MimeType=text/plain;
-Categories=Network;
-Actions=off;stats;
-
-[Desktop Action off]
-Name=Jump VPN OFF
-Exec={0}/bin/jump_off.sh
-
-[Desktop Action stats]
-Name=Jump VPN Stats
-Exec={0}/bin/jump_stats.sh
-""".format(MY_USER_DIR)
-
-    JUMP_OFF_DESKTOP = """\
-[Desktop Entry]
-Encoding=UTF-8
-Name=Jump VPN OFF
-GenericName=Close Jump VPN connection
-Comment=Close Jump VPN connection
-Exec={}/bin/jump_off.sh
-Icon=network-vpn-acquiring-symbolic
-Terminal=false
-Type=Application
-MimeType=text/plain;
-Categories=Network;
-""".format(MY_USER_DIR)
-
-    JUMP_STATS_DESKTOP = """\
-[Desktop Entry]
-Encoding=UTF-8
-Name=Jump VPN Stats
-GenericName=Dump VPN Statistics
-Comment=Close Jump VPN Statistics
-Exec={}/bin/jump_stats.sh
-Icon=network-vpn-no-route-symbolic
-Terminal=false
-Type=Application
-MimeType=text/plain;
-Categories=Network;
-""".format(MY_USER_DIR)
-
     SCRIPT_PREFIX = "{}/bin/jump_".format(MY_USER_DIR)
-    write_file(JUMP_ON_DESKTOP, os.path.join(
-        MY_USER_DIR, '.local/share/applications/jump-vpn.desktop'))
-    write_file(JUMP_STATS_DESKTOP, os.path.join(
-        MY_USER_DIR, '.local/share/applications/jump-vpn-stats.desktop'))
-    write_file(JUMP_OFF_DESKTOP, os.path.join(
-        MY_USER_DIR, '.local/share/applications/jump-vpn-off.desktop'))
-    write_file(CLIENT_OVPN, OVPNFILE)
-    write_file(JUMP_ON, "{}on.sh".format(SCRIPT_PREFIX))
-    write_file(JUMP_OFF, "{}off.sh".format(SCRIPT_PREFIX))
-    write_file(JUMP_STATS, "{}stats.sh".format(SCRIPT_PREFIX))
-
     MY_TOKEN = get_otp(OTP_SECRET)
     write_file("{}\n{}{}\n".format(VPN_USER, VPN_PASSWORD, MY_TOKEN), AUTHFILE)
 

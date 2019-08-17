@@ -148,14 +148,34 @@ MimeType=text/plain;
 Categories=Network;
 EOF
 
-printf "\nthe following script have been created:\n"
-printf "  ~/bin/${APP}
-  ~/.local/share/applications/jump-vpn-.desktop
-  ~/.local/share/applications/jump-vpn-off.desktop
-  ~/.local/share/applications/jump-vpn-stats.desktop\n"
-chmod +x ~/bin/${APP}
+cat <<EOF > ~/jump_on.sh
+#!/bin/bash
+rxvt -depth 32 -bg rgba:0000/0000/0000/9999 -fg "[99]green" \\
+    --geometry 160x15 -title "Jump VPN" -e /bin/bash \\
+    -c "sudo openvpn --config .client.ovpn"
+EOF
 
-printf "\nto uninstall ${APP}:
-rm -rf ~/venv/${APP} ~/bin/${APP}\n\n"
+cat <<EOF > ~/jump_stats.sh
+echo "printing OpenVPN statistics"
+echo "signal SIGUSR2" | telnet 127.0.0.1 7505 >/dev/null
+EOF
+
+cat <<EOF > ~/jump_ff.sh
+echo "disconnecting OpenVPN"
+echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
+EOF
+
+printf "\nthe following script have been created:
+  ~/bin/${APP}
+  ~/bin/jump-vpn.sh
+  ~/bin/jump-vpn-off.sh
+  ~/bin/jump-vpn-stats.sh
+  ~/.local/share/applications/jump-vpn.desktop
+  ~/.local/share/applications/jump-vpn-off.desktop
+  ~/.local/share/applications/jump-vpn-stats.desktop
+
+to uninstall ${APP}:
+rm -rf ~/venv/${APP} ~/bin/${APP} ~/.local/share/applications/jump-vpn*\n\n"
 
 deactivate
+chmod +x ~/bin/${APP} ~/bin/jump*

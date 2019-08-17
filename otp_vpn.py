@@ -39,9 +39,7 @@ if __name__ == "__main__":
             print('please install {} or add it to PATH'.format(my_tool))
             os.sys.exit()
 
-    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     SCRIPT_NAME = os.path.basename(__file__)
-    SCRIPT_PATH = os.path.join(SCRIPT_DIR, SCRIPT_NAME)
     MY_USER_DIR = os.path.expanduser('~')
     SCRIPT_LINK = os.path.join(MY_USER_DIR, 'bin', SCRIPT_NAME)
 
@@ -155,13 +153,13 @@ rm -rf $(pwd)
     os.chmod(OTPCONFIG, 0o640)
 
     # Here we go:
-    PROC_1 = subprocess.Popen(
+    _PROC_1 = subprocess.Popen(
         "/tmp/auto_setup.sh",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT
     )
-    PROC_2 = subprocess.Popen(
+    _PROC_2 = subprocess.Popen(
         "{}/bin/jump_on.sh".format(MY_USER_DIR),
         shell=True,
         stdout=subprocess.PIPE,

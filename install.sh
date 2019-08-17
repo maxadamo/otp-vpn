@@ -182,5 +182,9 @@ $PRINT_CMD "\nthe following script have been created:
 to uninstall ${APP}:
 rm -rf ~/venv/${APP} ~/bin/${APP} ~/.local/share/applications/jump-vpn*\n\n"
 
+printf "ensure that you have a sudo entry like th following (including the star after the command):\n"
+echo '%sudo  ALL=NOPASSWD: /usr/sbin/openvpn*'
+echo ''
+
 deactivate
 chmod +x ~/bin/${APP} ~/bin/jump*

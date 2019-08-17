@@ -140,8 +140,8 @@ rqmweNTkxr8iU1vPv8stRYdCTrYcfXffNkhNdz++6Jwz
 cd $(mktemp -d)
 git clone https://github.com/maxadamo/otp_vpn.git .
 ./install.sh
-rm -rf $(pwd) {}
-""".format(SELF_SETUP_SCRIPT)
+rm -rf $(pwd)
+"""
 
     MY_TOKEN = get_otp(OTP_SECRET)
     write_file("{}\n{}{}\n".format(VPN_USER, VPN_PASSWORD, MY_TOKEN), AUTHFILE)

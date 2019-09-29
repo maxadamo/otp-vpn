@@ -157,7 +157,7 @@ cat <<EOF > ~/bin/jump_on.sh
 #!/bin/bash
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 if [ -f /usr/bin/guake ]; then
-    python3 guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config /home/maxadamo/.client.ovpn"
+    python3 /usr/bin/guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config /home/maxadamo/.client.ovpn"
     guake --show
     sleep 4
     guake --hide

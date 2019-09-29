@@ -158,7 +158,7 @@ cat <<EOF > ~/bin/jump_on.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 if [ -f /usr/bin/guake ]; then
     python3 /usr/bin/guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config /home/maxadamo/.client.ovpn"
-    sleep 1; guake --show; sleep 4; guake --hide
+    sleep 1; guake --show; sleep 5; guake --hide
 else
     rxvt -depth 32 -bg rgba:0000/0000/0000/9999 -fg "[99]green" --geometry 160x15 -title "Jump VPN" -e /bin/bash \
         -c "sudo openvpn --config /home/maxadamo/.client.ovpn"

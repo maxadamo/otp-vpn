@@ -153,7 +153,7 @@ MimeType=text/plain;
 Categories=Network;
 EOF
 
-cat <<EOF > ~/jump_on.sh
+cat <<EOF > ~/bin/jump_on.sh
 #!/bin/bash
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 if [ -f /usr/bin/guake ]; then
@@ -164,14 +164,14 @@ else
 fi
 EOF
 
-cat <<EOF > ~/jump_stats.sh
+cat <<EOF > ~/bin/jump_stats.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "printing OpenVPN statistics"
 echo "signal SIGUSR2" | telnet 127.0.0.1 7505 >/dev/null
 which guake &>/dev/null && guake --toggle-visibility
 EOF
 
-cat <<EOF > ~/jump_off.sh
+cat <<EOF > ~/bin/jump_off.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
@@ -187,7 +187,7 @@ $PRINT_CMD "\nthe following script have been created:
   ~/.local/share/applications/jump-vpn-stats.desktop
 
 to uninstall ${APP}:
-rm -rf ~/venv/${APP} ~/bin/${APP} ~/.local/share/applications/jump-vpn*\n\n"
+rm -rf ~/venv/${APP} ~/bin/${APP} ~/bin/jump-vpn* ~/.local/share/applications/jump-vpn*\n\n"
 
 printf "ensure that you have a sudo entry like th following (including the star after the command):\n"
 echo '%sudo  ALL=NOPASSWD: /usr/sbin/openvpn*'

@@ -156,9 +156,12 @@ EOF
 cat <<EOF > ~/bin/jump_on.sh
 #!/bin/bash
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
-if [ -f /usr/bin/guake ]; then
+if pgrep -f guake >/dev/null; then
     python3 /usr/bin/guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config /home/maxadamo/.client.ovpn"
-    sleep 1; guake --show; sleep 5; guake --hide
+    sleep 1
+    guake --show
+    sleep 5
+    guake --hide
 else
     rxvt -depth 32 -bg rgba:0000/0000/0000/9999 -fg "[99]green" --geometry 160x15 -title "Jump VPN" -e /bin/bash \
         -c "sudo openvpn --config /home/maxadamo/.client.ovpn"
@@ -169,14 +172,18 @@ cat <<EOF > ~/bin/jump_stats.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "printing OpenVPN statistics"
 echo "signal SIGUSR2" | telnet 127.0.0.1 7505 >/dev/null
-which guake &>/dev/null && guake --show
-sleep 4; guake --hide
+if pgrep -f guake >/dev/null; then
+    guake --show
+    sleep 4
+    guake --hide
+fi
 EOF
 
 cat <<EOF > ~/bin/jump_off.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
+pgrep -f guake >/dev/null && guake --show
 EOF
 
 $PRINT_CMD "\nthe following script have been created:

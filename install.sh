@@ -189,8 +189,10 @@ guake --hide
 EOF
 
 $PRINT_CMD "\nthe following files have been created:
-  ~/bin/${APP} ~/bin/jump-vpn.sh
-  ~/bin/jump-vpn-off.sh ~/bin/jump-vpn-stats.sh
+  ~/bin/${APP}
+  ~/bin/jump-vpn.sh
+  ~/bin/jump-vpn-off.sh
+  ~/bin/jump-vpn-stats.sh
   ~/.local/share/applications/jump-vpn.desktop
   ~/.local/share/applications/jump-vpn-off.desktop
   ~/.local/share/applications/jump-vpn-stats.desktop
@@ -198,7 +200,7 @@ $PRINT_CMD "\nthe following files have been created:
 to uninstall ${APP}:
 rm -rf ~/venv/${APP} ~/bin/${APP} ~/bin/jump-vpn* ~/.local/share/applications/jump-vpn*\n\n"
 
-printf "ensure that you have a sudo entry like this (including after the command):\n"
+$PRINT_CMD "ensure that you have a sudo entry like this (including after the command):\n"
 echo '%sudo  ALL=NOPASSWD: /usr/sbin/openvpn*'
 echo ''
 

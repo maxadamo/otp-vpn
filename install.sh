@@ -184,6 +184,8 @@ export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
 pgrep -f guake >/dev/null && guake --show
+sleep 3
+guake --hide
 EOF
 
 $PRINT_CMD "\nthe following script have been created:

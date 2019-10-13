@@ -200,7 +200,7 @@ $PRINT_CMD "\nthe following files have been created:
 to uninstall ${APP}:
 rm -rf ~/venv/${APP} ~/bin/${APP} ~/bin/jump-vpn* ~/.local/share/applications/jump-vpn*\n\n"
 
-$PRINT_CMD "ensure that you have a sudo entry like this (including after the command):\n"
+$PRINT_CMD "ensure that you have a sudo entry like this (including the star after the command):\n"
 echo '%sudo  ALL=NOPASSWD: /usr/sbin/openvpn*'
 echo ''
 

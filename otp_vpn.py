@@ -101,7 +101,7 @@ persist-tun
 remote-cert-tls server
 cipher AES-256-CBC
 reneg-sec 0
-tun-mtu 1280
+tun-mtu 1500
 comp-lzo
 auth-nocache
 auth-user-pass {1}

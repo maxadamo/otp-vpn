@@ -183,9 +183,11 @@ cat <<EOF > ~/bin/jump_off.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 echo "disconnecting OpenVPN"
 echo "signal SIGINT" | telnet 127.0.0.1 7505 >/dev/null
-pgrep -f guake >/dev/null && guake --show
-sleep 3
-guake --hide
+if pgrep -f guake >/dev/null; then
+    guake --show
+    sleep 2
+    guake --hide
+fi
 EOF
 
 $PRINT_CMD "\nthe following files have been created:

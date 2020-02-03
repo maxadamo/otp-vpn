@@ -34,7 +34,7 @@ def write_file(file_content, file_name):
 
 if __name__ == "__main__":
 
-    for my_tool in ['rxvt-unicode', 'openvpn', 'git']:
+    for my_tool in ['resolvconf', 'rxvt-unicode', 'openvpn', 'git']:
         if not is_tool(my_tool):
             print('please install {} or add it to PATH'.format(my_tool))
             os.sys.exit()

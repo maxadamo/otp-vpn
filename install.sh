@@ -108,7 +108,7 @@ Encoding=UTF-8
 Name=Jump VPN
 GenericName=Jump VPN with OTP
 Comment=Launch Jump VPN with OTP
-Exec=/home/maxadamo/bin/${APP}
+Exec=${HOME}/bin/${APP}
 Icon=network-vpn-symbolic
 Terminal=false
 Type=Application
@@ -118,11 +118,11 @@ Actions=off;stats;
 
 [Desktop Action off]
 Name=Jump VPN OFF
-Exec=/home/maxadamo/bin/jump_off.sh
+Exec=${HOME}/bin/jump_off.sh
 
 [Desktop Action stats]
 Name=Jump VPN Stats
-Exec=/home/maxadamo/bin/jump_stats.sh
+Exec=${HOME}/bin/jump_stats.sh
 EOF
 
 cat <<EOF > ~/.local/share/applications/jump-vpn-off.desktop
@@ -131,7 +131,7 @@ Encoding=UTF-8
 Name=Jump VPN OFF
 GenericName=Close Jump VPN connection
 Comment=Close Jump VPN connection
-Exec=/home/maxadamo/bin/jump_off.sh
+Exec=${HOME}/bin/jump_off.sh
 Icon=network-vpn-acquiring-symbolic
 Terminal=false
 Type=Application
@@ -145,7 +145,7 @@ Encoding=UTF-8
 Name=Jump VPN Stats
 GenericName=Dump VPN Statistics
 Comment=Close Jump VPN Statistics
-Exec=/home/maxadamo/bin/jump_stats.sh
+Exec=${HOME}/bin/jump_stats.sh
 Icon=network-vpn-no-route-symbolic
 Terminal=false
 Type=Application
@@ -156,15 +156,19 @@ EOF
 cat <<EOF > ~/bin/jump_on.sh
 #!/bin/bash
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
-if pgrep -f guake >/dev/null; then
-    python3 /usr/bin/guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config /home/maxadamo/.client.ovpn"
+if tilix --quake -e "/bin/bash exit"; then
+    tilix --quake -t "Jump VPN" -e "sudo openvpn --config ${HOME}/.client.ovpn"
+    sleep 5
+    tilix --quake
+elif pgrep -f guake >/dev/null; then
+    python3 /usr/bin/guake --rename-current-tab="Jump VPN" -e "sudo openvpn --config ${HOME}/.client.ovpn"
     sleep 1
     guake --show
     sleep 5
     guake --hide
 else
     rxvt -depth 32 -bg rgba:0000/0000/0000/9999 -fg "[99]green" --geometry 160x15 -title "Jump VPN" -e /bin/bash \
-        -c "sudo openvpn --config /home/maxadamo/.client.ovpn"
+        -c "sudo openvpn --config ${HOME}/.client.ovpn"
 fi
 EOF
 
